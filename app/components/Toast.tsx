@@ -15,7 +15,7 @@ const Toast = () => {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed inset-x-0 top-0 inline-flex flex-col items-center space-y-2 z-50 pointer-events-none">
+    <div className="fixed inset-x-0 top-2 inline-flex flex-col items-center space-y-2 z-50 pointer-events-none">
       {toasts.map((toast) => (
         <button
           key={toast.id}
