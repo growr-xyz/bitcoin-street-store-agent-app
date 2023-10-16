@@ -3,11 +3,9 @@ import { twMerge } from "tailwind-merge";
 
 const User: React.FC<IconProps> = ({ className = "w-6 h-6", ...props }) => (
   <svg
-    className={twMerge(
-      "inline-block fill-current stroke-current md:h-6 md:w-6",
-      className
-    )}
+    className={twMerge("inline-block md:h-6 md:w-6", className)}
     strokeWidth="0"
+    fill="currentColor"
     viewBox="0 0 496 512"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
