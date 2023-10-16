@@ -2,6 +2,7 @@ import "@/globals.css";
 import type { Metadata } from "next";
 import Providers from "@/context/providers";
 import { Fredoka } from "next/font/google";
+import Toast from "@/components/Toast";
 
 export const metadata: Metadata = {
   title: "Bitcoin Street Store",
@@ -21,7 +22,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={fredoka.className}>{children}</body>
+      <body className={fredoka.className}>
+        <Providers>
+          <main>
+            {children}
+            <Toast />
+          </main>
+        </Providers>
+      </body>
     </html>
   );
 }
