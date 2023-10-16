@@ -59,16 +59,16 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
     // eslint-disable-next-line
   }, [relayUrl]);
 
-  useEffect(() => {
-    console.log("NEW ACTIVE RELAY IS:", activeRelay);
-  }, [activeRelay]);
+  // useEffect(() => {
+  //   console.log("New active relay:", activeRelay);
+  // }, [activeRelay]);
 
-  useEffect(() => {
-    console.log("CONNECTED RELAYS URE:", connectedRelays);
-  }, [connectedRelays]);
+  // useEffect(() => {
+  //   console.log("Connected relays:", connectedRelays);
+  // }, [connectedRelays]);
 
   const connect = async (newRelayUrl: string) => {
-    console.log("connecting to relay:", newRelayUrl);
+    // console.log("Connecting to relay:", newRelayUrl);
     if (!newRelayUrl) return;
 
     let relay: Relay;
@@ -80,19 +80,19 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     if (existingRelay) {
-      console.log("info", `✅ nostr (${newRelayUrl}): Already connected!`);
+      // console.log("info", `✅ Nostr (${newRelayUrl}): Already connected!`);
       relay = existingRelay;
       if (relayUrl === relay.url) {
         setActiveRelay(relay);
       }
     } else {
-      console.log("NEWING UP A RELAY");
+      // console.log("New relay...");
       relay = relayInit(newRelayUrl);
 
       await relay.connect();
 
       relay.on("connect", () => {
-        console.log("info", `✅ nostr (${newRelayUrl}): Connected!`);
+        // console.log("info", `✅ Nostr (${newRelayUrl}): Connected!`);
         if (relayUrl === relay.url) {
           setActiveRelay(relay);
           const isRelayInSet = Array.from(connectedRelays).some(
@@ -106,14 +106,14 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       relay.on("disconnect", () => {
-        console.log("warn", `🚪 nostr (${newRelayUrl}): Connection closed.`);
+        // console.warn("warn", `🚪 Nostr (${newRelayUrl}): Connection closed.`);
         setConnectedRelays(
           new Set([...connectedRelays].filter((r) => r.url !== relay.url))
         );
       });
 
       relay.on("error", () => {
-        console.log("error", `❌ nostr (${newRelayUrl}): Connection error!`);
+        console.error("error", `❌ Nostr (${newRelayUrl}): Connection error!`);
         createToast({
           message: `Unable to connect to ${relayUrl}`,
           type: "error",
@@ -170,12 +170,10 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
       let sub = relay.sub([filter]);
 
       sub.on("event", (event: any) => {
-        console.log("we got the event we wanted:", event);
         onEvent(event);
       });
 
       sub.on("eose", () => {
-        console.log("we've reached the end:");
         sub.unsub();
         onEOSE();
         // relay.close();
