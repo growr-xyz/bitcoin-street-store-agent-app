@@ -37,7 +37,7 @@ const ToastProvider = ({ children }: { children: ReactNode }) => {
     setToasts((current) => current.filter((toast) => toast.id !== id));
   };
 
-  const createToast = ({ message, type, timeout = 20 }: ToastType) => {
+  const createToast = ({ message, type, timeout = 3 }: ToastType) => {
     const id = Date.now();
 
     console.log("createToast");
