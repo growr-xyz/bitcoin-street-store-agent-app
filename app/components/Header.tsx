@@ -1,16 +1,40 @@
 "use client";
 
 import Login from "./Login";
+import Link from "next/link";
+import { Back } from "@/icons";
 
 interface HeaderProps {
   title: string;
   backButton?: boolean;
+  backButtonOnClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  backLink?: boolean;
+  backLinkHref?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, backButton }) => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  backButton,
+  backButtonOnClick,
+  backLink,
+  backLinkHref,
+}) => {
   return (
     <header className="flex items-center justify-between p-4 bg-stone-200 text-stone-900">
-      {backButton && <button className="bg-stone-200 p-2 rounded">Back</button>}
+      {backButton && backButtonOnClick ? (
+        <button
+          onClick={backButtonOnClick}
+          className="bg-stone-200 rounded-full"
+        >
+          <Back />
+        </button>
+      ) : backLink && backLinkHref ? (
+        <Link href={backLinkHref} className="bg-stone-200 rounded-full">
+          <Back />
+        </Link>
+      ) : (
+        <div></div>
+      )}
       <h1 className="text-xl font-bold">{title}</h1>
       <Login />
     </header>

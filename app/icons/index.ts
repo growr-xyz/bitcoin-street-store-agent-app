@@ -4,3 +4,4 @@ export type IconType = FC<IconProps>;
 
 export { default as X } from "./X";
 export { default as User } from "./User";
+export { default as Back } from "./Back";
