@@ -4,7 +4,6 @@ import { UserContext } from "@/context/user-context";
 import { RelayContext } from "@/context/relay-context";
 // import { FollowingContext } from "@/context/following-context"; // Not implemented
 import Avatar from "./Avatar";
-import Link from "next/link";
 
 interface AccountProps {
   pubkey: string;
@@ -12,7 +11,8 @@ interface AccountProps {
 
 const Account: FC<AccountProps> = ({ pubkey }) => {
   const [picture, setPicture] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const [name, setName] = useState("");
+  const { user, setUser, logoutUser } = useContext(UserContext);
   const { relayUrl, activeRelay, subscribe } = useContext(RelayContext);
   const [isOpen, setIsOpen] = useState(false);
   // const { following, setFollowing, followingReload, setFollowingReload } =
@@ -45,6 +45,9 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
         const contentObj = JSON.parse(content);
         if (contentObj.picture) {
           setPicture(contentObj.picture);
+        }
+        if (contentObj.display_name || contentObj.name) {
+          setName(contentObj.display_name ?? contentObj.name);
         }
       }
     }
@@ -115,7 +118,7 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
 
   const logoutHandler = () => {
     localStorage.removeItem("shouldReconnect");
-    setUser({});
+    logoutUser();
     window.location.reload();
   };
 
@@ -127,9 +130,12 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
           className="flex flex-row gap-2 items-center"
           onClick={() => setIsOpen(true)}
         >
-          <Avatar src={picture} className="w-8 h-8 text-orange-900" />
-          <div className="w-16 whitespace-nowrap overflow-ellipsis overflow-hidden">
-            {pubkey}
+          <Avatar
+            src={picture}
+            className="w-8 h-8 text-stone-600 border border-stone-200"
+          />
+          <div className="max-w-[250px] whitespace-nowrap overflow-ellipsis overflow-hidden">
+            {!!name ? name : pubkey}
           </div>
         </div>
         {isOpen && (

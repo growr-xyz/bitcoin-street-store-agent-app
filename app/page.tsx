@@ -1,14 +1,20 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Header from "@/components/Header";
-import { ToastContext } from "./context/toast-context";
+import { UserContext } from "./context/user-context";
+import { useMerchants } from "./lib/services";
 
 const Landing: React.FC = () => {
+  const { isAuthenticated } = useContext(UserContext);
+
   return (
     <div>
-      <Header title="Landing" />
-      <div className="p-6"></div>
+      {isAuthenticated ? (
+        <Header title="Welcome!" />
+      ) : (
+        <Header title="Bitcoin Street Store" />
+      )}
     </div>
   );
 };

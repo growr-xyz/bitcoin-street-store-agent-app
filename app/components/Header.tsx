@@ -9,9 +9,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, backButton }) => {
   return (
-    <header className="flex items-center justify-between p-4 bg-orange-500 text-white">
-      {backButton && <button className="bg-blue-500 p-2 rounded">Back</button>}
-      <h1 className="text-xl">{title}</h1>
+    <header className="flex items-center justify-between p-4 bg-stone-200 text-stone-900">
+      {backButton && <button className="bg-stone-200 p-2 rounded">Back</button>}
+      <h1 className="text-xl font-bold">{title}</h1>
       <Login />
     </header>
   );
