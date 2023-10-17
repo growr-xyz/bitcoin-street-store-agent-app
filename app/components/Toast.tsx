@@ -4,10 +4,10 @@ import { useContext } from "react";
 import { ToastContext } from "@/context/toast-context";
 
 const typeClasses = {
-  info: "bg-sky-200 text-sky-800",
-  success: "bg-green-200 text-green-800",
-  warning: "bg-amber-200 text-amber-800",
-  error: "bg-red-200 text-red-800",
+  info: "bg-sky-600 text-white",
+  success: "bg-green-600 text-white",
+  warning: "bg-amber-600 text-white",
+  error: "bg-red-600 text-white",
 };
 
 const Toast = () => {
