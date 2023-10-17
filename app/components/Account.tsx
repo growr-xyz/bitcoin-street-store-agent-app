@@ -13,7 +13,7 @@ interface AccountProps {
 const Account: FC<AccountProps> = ({ pubkey }) => {
   // const [picture, setPicture] = useState("");
   // const [name, setName] = useState("");
-  const { user, /*setUser,*/ logoutUser } = useContext(UserContext);
+  const { user, isUserLoading, logoutUser } = useContext(UserContext);
   // const { relayUrl, activeRelay, subscribe } = useContext(RelayContext);
   const [isOpen, setIsOpen] = useState(false);
   // const { following, setFollowing, followingReload, setFollowingReload } =
@@ -134,11 +134,11 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
           onClick={() => setIsOpen(true)}
         >
           <Avatar
-            src={user.picture}
+            src={isUserLoading ? undefined : user.picture}
             className="w-8 h-8 text-stone-600 border border-stone-200"
           />
           <div className="max-w-[250px] whitespace-nowrap overflow-ellipsis overflow-hidden">
-            {user.displayName ?? user.name}
+            {isUserLoading ? "Loading..." : user.displayName ?? user.name}
           </div>
         </div>
         {isOpen && (

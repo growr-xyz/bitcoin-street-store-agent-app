@@ -59,7 +59,7 @@ export const UserContext = createContext<{
   keys: { privateKey: string; publicKey: string };
   user: User;
   // token: string;
-  isLoading: boolean;
+  isUserLoading: boolean;
   isAuthenticated: boolean;
   // setKeys: Dispatch<SetStateAction<{ privateKey: string; publicKey: string }>>;
   // setUser: Dispatch<SetStateAction<any>>;
@@ -69,7 +69,7 @@ export const UserContext = createContext<{
 }>({
   keys: { privateKey: "", publicKey: "" },
   user: { name: "" },
-  isLoading: true,
+  isUserLoading: true,
   // token: "",
   isAuthenticated: false,
   // setKeys: () => defaultKeys,
@@ -85,7 +85,7 @@ const UserProvider = ({ children }: any) => {
   const [keys, setKeys] = useState(defaultKeys);
   const [user, setUser] = useState<User>({ name: "" });
   // const [token, setToken] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { relayUrl, activeRelay, subscribe } = useContext(RelayContext);
   const { createToast } = useContext(ToastContext);
@@ -129,7 +129,7 @@ const UserProvider = ({ children }: any) => {
       // Renew 1 minute before the expiration
       setTimeout(async () => {
         try {
-          setIsLoading(true);
+          setIsUserLoading(true);
           console.warn("Token expired, to renew");
 
           // Check if authenticated just in case
@@ -145,7 +145,7 @@ const UserProvider = ({ children }: any) => {
           }
           // }
         } finally {
-          setIsLoading(false);
+          setIsUserLoading(false);
         }
       }, Math.max(remainingTime - 60000, 0));
 
@@ -254,6 +254,9 @@ const UserProvider = ({ children }: any) => {
         // Kind 0 => set profile metadata
         setProfileMetadata(event);
         parseProfileMetadata(event);
+
+        // Profile is set, set isUserLoading = false
+        setIsUserLoading(false);
       }
     };
 
@@ -268,7 +271,7 @@ const UserProvider = ({ children }: any) => {
   const orchestrateLogin = async (loadedToken?: string) => {
     console.info("Try to auto-reconnect! Using token?", loadedToken);
 
-    setIsLoading(false);
+    setIsUserLoading(true);
 
     // 1. Get the Nostr npub
     const publicKey = await connectNostr();
@@ -301,8 +304,10 @@ const UserProvider = ({ children }: any) => {
     // 4. Load the profile (async, but non-blocking)
     await getProfileEvent(publicKey);
 
-    // 5. Set isLoading = false
-    setIsLoading(false);
+    // 5. Set isUserLoading = false (wait for 5 seconds due to profile events)
+    setTimeout(() => {
+      setIsUserLoading(false);
+    }, 5000);
 
     return true;
 
@@ -342,15 +347,13 @@ const UserProvider = ({ children }: any) => {
       // Force state cleanup
       logoutUser();
       return false;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const logoutUser = () => {
     try {
       console.warn("Logging out");
-      setIsLoading(true);
+      setIsUserLoading(true);
 
       // Clean up
       localStorage.removeItem("shouldReconnect");
@@ -359,7 +362,7 @@ const UserProvider = ({ children }: any) => {
       setKeys(defaultKeys);
       setUser({ name: "" });
     } finally {
-      setIsLoading(false);
+      setIsUserLoading(false);
     }
   };
 
@@ -407,7 +410,7 @@ const UserProvider = ({ children }: any) => {
         // setKeys,
         user,
         // setUser,
-        isLoading,
+        isUserLoading,
         isAuthenticated,
         // token,
         // signToken,

@@ -6,7 +6,7 @@ import { UserContext } from "./context/user-context";
 import { useMerchants } from "./lib/services";
 
 const Landing: React.FC = () => {
-  const { isAuthenticated } = useContext(UserContext);
+  const { isAuthenticated, isUserLoading } = useContext(UserContext);
 
   const { data: merchants, isLoading } = useMerchants();
 

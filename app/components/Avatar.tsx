@@ -12,7 +12,13 @@ interface AvatarProps
 const Avatar: FC<AvatarProps> = ({ src, className = "" }) =>
   src ? (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={`rounded-full ${className}`} src={src} alt="" />
+    <img
+      className={`rounded-full ${className}`}
+      src={src}
+      alt=""
+      width={24}
+      height={24}
+    />
   ) : (
     <User className={`${className}`} />
   );
