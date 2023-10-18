@@ -32,11 +32,17 @@ const Login = () => {
         /*isLightningConnected &&*/ keys?.publicKey ? (
           <Account pubkey={keys.publicKey} />
         ) : (
-          <>
-            <button onClick={() => loginModal.show()} className="p-1">
+          <div className="w-full h-[100dvh] flex flex-col gap-8 justify-center items-center">
+            <h1 className="font-bold text-xl">
+              Welcome to Bitcoin Street Store!
+            </h1>
+            <button
+              onClick={() => loginModal.show()}
+              className="rounded px-6 py-2 bg-orange-600 text-white text-lg"
+            >
               Login
             </button>
-          </>
+          </div>
         )
       }
       <Modal

@@ -35,7 +35,9 @@ const Header: React.FC<HeaderProps> = ({
       ) : (
         <div></div>
       )}
-      <h1 className="text-xl font-bold">{title}</h1>
+      <h1 className="text-xl font-bold overflow-hidden overflow-ellipsis whitespace-nowrap mx-2">
+        {title}
+      </h1>
       <Login />
     </header>
   );
