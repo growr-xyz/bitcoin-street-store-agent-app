@@ -98,6 +98,8 @@ export const MerchantSchema = z.object({
   name: z.string().optional(),
   about: z.string().optional(),
   picture: z.string().optional(),
+  banner: z.string().optional(),
+  website: z.string().optional(),
   stalls: z.array(z.string()).optional(), // Assuming ObjectId is a string
   status: MerchantStatusSchema,
   createdBy: z.string().optional(), // New merchants don't have createdBy, otherwise required
