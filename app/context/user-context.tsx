@@ -94,7 +94,7 @@ const UserProvider = ({ children }: any) => {
   // Returns the remaining time until the token has to be refreshed by signing a new NIP-98 event
   const getTokenRemainingTime = (token: string) => {
     // Get the expiry time (10 minutes after creation time)
-    const validityTime = 600; // in seconds
+    const validityTime = 600; // in seconds TODO: put in .env
     const createdAt = JSON.parse(atob(token.split(" ")[1]))?.created_at;
     // Renew 1 minute before expiration, or in 1 sec if not defined
     const expiryTime = createdAt ? createdAt + validityTime * 1000 : Date.now();
@@ -129,14 +129,17 @@ const UserProvider = ({ children }: any) => {
       // Renew 1 minute before the expiration
       setTimeout(async () => {
         try {
+          // console.warn("setIsUserLoading true");
           setIsUserLoading(true);
           console.warn("Token expired, to renew");
 
           // Check if authenticated just in case
           // if (isAuthenticated) {
           const isSigningOK = await signToken();
-          if (isSigningOK) setIsAuthenticated(true);
-          else {
+          if (isSigningOK) {
+            // console.warn("setIsAuthenticated true");
+            setIsAuthenticated(true);
+          } else {
             logoutUser();
             createToast({
               message: "Could not renew API access token",
@@ -145,6 +148,7 @@ const UserProvider = ({ children }: any) => {
           }
           // }
         } finally {
+          // console.warn("setIsUserLoading false");
           setIsUserLoading(false);
         }
       }, Math.max(remainingTime - 60000, 0));
@@ -256,6 +260,7 @@ const UserProvider = ({ children }: any) => {
         parseProfileMetadata(event);
 
         // Profile is set, set isUserLoading = false
+        // console.warn("setIsUserLoading false");
         setIsUserLoading(false);
       }
     };
@@ -271,6 +276,7 @@ const UserProvider = ({ children }: any) => {
   const orchestrateLogin = async (loadedToken?: string) => {
     console.info("Try to auto-reconnect! Using token?", loadedToken);
 
+    // console.warn("setIsUserLoading true");
     setIsUserLoading(true);
 
     // 1. Get the Nostr npub
@@ -299,6 +305,7 @@ const UserProvider = ({ children }: any) => {
     }
 
     // 3. Set isAuthenticated = true
+    console.warn("setIsAuthenticated true");
     setIsAuthenticated(true);
 
     // 4. Load the profile (async, but non-blocking)
@@ -306,6 +313,7 @@ const UserProvider = ({ children }: any) => {
 
     // 5. Set isUserLoading = false (wait for 5 seconds due to profile events)
     setTimeout(() => {
+      // console.warn("setIsUserLoading false");
       setIsUserLoading(false);
     }, 5000);
 
@@ -353,15 +361,18 @@ const UserProvider = ({ children }: any) => {
   const logoutUser = () => {
     try {
       console.warn("Logging out");
+      // console.warn("setIsUserLoading true");
       setIsUserLoading(true);
 
       // Clean up
       localStorage.removeItem("shouldReconnect");
+      console.warn("setIsAuthenticated false");
       setIsAuthenticated(false);
       setToken("");
       setKeys(defaultKeys);
       setUser({ name: "" });
     } finally {
+      // console.warn("setIsUserLoading false");
       setIsUserLoading(false);
     }
   };
@@ -398,6 +409,9 @@ const UserProvider = ({ children }: any) => {
 
       if (shouldReconnect === "true") {
         orchestrateLogin(tokenFromSession ?? undefined);
+      } else {
+        // console.warn("setIsUserLoading false");
+        setIsUserLoading(false);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
