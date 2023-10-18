@@ -1,60 +1,128 @@
 import { z } from "zod";
 
-export const merchantSchema = z.object({
-  id: z.string().optional(), // New merchants don't have ID
+const DateSchema = z.string().refine((value) => !isNaN(Date.parse(value)), {
+  message: "Invalid date format",
+});
+
+export const ShippingZoneStatusSchema = z
+  .enum(["Draft", "Review", "Active", "Deactivated"])
+  .default("Draft");
+
+export const ShippingZoneSchema = z.object({
+  _id: z.string().optional(), // New shipping zones don't have _id
   name: z.string().min(1, { message: "Name is required" }),
-  // TODO: Format validation
-  mobileNumber: z.string().min(1, { message: "Mobile number is required" }),
-  userName: z.string().min(1, { message: "User name is required" }),
-  walletAddress: z.string().min(1, { message: "Wallet address is required" }),
+  cost: z.number().default(0),
+  regions: z.array(z.string().default("Worldwide - Online")),
+  status: ShippingZoneStatusSchema,
+  eventId: z.string().optional(), // Assuming ObjectId is a string; new shipping zones don't have eventId
+  createdBy: z.string(), // .default("AGENT NOSTR PUBKEY IMPLEMENT WITH NIP 98"),
+  merchantId: z.string(), // Assuming ObjectId is a string
+  createdAt: DateSchema.optional(),
+  updatedAt: DateSchema.optional(),
+});
+
+// Define the schema for the shipping property
+export const ShippingSchema = z.object({
+  id: z.string(),
+  cost: z.number(),
+});
+
+export const ProductStatusSchema = z
+  .enum(["Draft", "Review", "Active", "Deactivated"])
+  .default("Draft");
+
+// Define the ProductSchema
+export const ProductSchema = z.object({
+  _id: z.string().optional(), // New products don't have _id
+  stallId: z.string().optional(), // Assuming ObjectId is a string, TODO: Remove .optional()
+  name: z.string(),
+  description: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  currency: z.string().default("SAT"),
+  price: z.number().default(0),
+  quantity: z.number().default(0),
+  specs: z.array(z.string()).optional(),
+  shipping: z.array(ShippingSchema).optional(),
+  status: ProductStatusSchema,
+  eventId: z.string().optional(), // Assuming ObjectId is a string; new products don't have eventId
+  createdBy: z.string(),
+  merchantId: z.string(), // Assuming ObjectId is a string
+  createdAt: DateSchema.optional(),
+  updatedAt: DateSchema.optional(),
+});
+
+export const StallStatusSchema = z
+  .enum(["Draft", "Review", "Active", "Deactivated"])
+  .default("Draft");
+
+export const StallSchema = z.object({
+  _id: z.string().optional(), // New stalls don't have _id
+  name: z.string(),
+  description: z.string().optional(),
+  currency: z.string().default("SATS"),
+  shipping: z.array(ShippingZoneSchema).optional(),
+  products: z.array(ProductSchema).optional(),
+  regions: z.array(z.string()).optional(),
+  status: StallStatusSchema,
+  eventId: z.string().optional(), // Assuming ObjectId is a string; new stalls don't have eventId
+  createdBy: z.string(),
+  merchantId: z.string(), // Assuming ObjectId is a string
+  createdAt: DateSchema.optional(),
+  updatedAt: DateSchema.optional(),
+});
+
+export const MerchantStatusSchema = z
+  .enum(["Invited", "Confirmed", "Active", "Deactivated"])
+  .default("Invited");
+
+export const MerchantSchema = z.object({
+  _id: z.string().optional(), // New merchants don't have _id
+  mobileNumber: z
+    .string()
+    .min(1, { message: "Mobile number is required" })
+    .refine(
+      (value) => {
+        // Phone number validation logic
+        const phoneNumberRegex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+        return phoneNumberRegex.test(value);
+      },
+      {
+        message: "Invalid phone number",
+      }
+    ),
+  username: z.string().min(1, { message: "User name is required" }),
+  walletAddress: z
+    .string()
+    .min(1, { message: "Merchant wallet's Lightning address is required" })
+    .email({ message: "Invalid Lightning address" }),
+  name: z.string().optional(),
   about: z.string().optional(),
   picture: z.string().optional(),
-  status: z.string(), // TODO: enum
-  stall: z.object({
-    id: z.string().optional(), // New stalls don't have ID
-    name: z.string().min(1, { message: "Name is required" }),
-    description: z.string().optional(),
-    currency: z.string().optional(), // sats
-    // TODO: Shipping
-  }),
+  stalls: z.array(z.string()).optional(), // Assuming ObjectId is a string
+  status: MerchantStatusSchema,
+  createdBy: z.string().optional(), // New merchants don't have createdBy, otherwise required
+  eventId: z.string().optional(), // Assuming ObjectId is a string; new merchants don't have eventId, otherwise required
+  // otp: OtpSchema.optional(),
+  createdAt: DateSchema.optional(),
+  updatedAt: DateSchema.optional(),
 });
 
-// {
-//   "id": "123a4567-b89c-123d-456e-789f123a4567",
-//   "name": "Merchant X",
-//   "mobileNumber": "233123456789",
-//   "userName": "string",
-//   "walletAddress": "TBD",
-//   "about": "string",
-//   "picture": "URL1",
-//   "status": "Draft",
-//   "stall": {
-//     "id": "string",
-//     "name": "string",
-//     "description": "string",
-//     "currency": "string"
-//   }
-// }
-
-export const productSchema = z.object({
-  id: z.string().optional(), // New products don't have ID
-  stallId: z.string().min(1, { message: "Stall is required" }),
-  name: z.string().min(1, { message: "Name is required" }),
-  description: z.string().min(1, { message: "Description is required" }),
-  images: z.array(z.string()), // TODO: Is array of URLs OK?
-  price: z.number().min(0, { message: "Price must be positive" }),
-  quantity: z.number().min(0, { message: "Quantity must be positive" }),
+export const PaginationSchema = z.object({
+  page: z.number(),
+  pageSize: z.number(),
+  total: z.number(),
+  totalPages: z.number(),
 });
 
-// {
-//   "id": "123a4567-b89c-123d-456e-789f123a4567",
-//   "stallId": "string",
-//   "name": "Product X",
-//   "description": "string",
-//   "images": [
-//     "URL1",
-//     "URL2"
-//   ],
-//   "price": 3000,
-//   "quantity": 10
-// }
+// Define a generic function to create the schema
+export function createApiResultSchema<T extends z.ZodType<any, any>>(
+  rowSchema: T
+) {
+  return z.object({
+    rows: z.array(rowSchema),
+    ...PaginationSchema.shape,
+  });
+}
+
+export const MerchantsSchema = createApiResultSchema(MerchantSchema);
+export const ProductsSchema = createApiResultSchema(ProductSchema);
