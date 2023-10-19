@@ -1,29 +1,36 @@
 "use client";
+
 import PageWrapper from "@/components/PageWrapper";
 import Header from "@/components/Header";
-// import { useMerchantById } from "@/lib/services";
+import { useProductById } from "@/lib/services";
+import EditProduct from "../EditProduct";
 
-interface EditProductPageProps {
+interface ProductDetailsPageProps {
   params: {
     merchantId: string;
     productId: string;
   };
 }
 
-const EditProductPage: React.FC<EditProductPageProps> = ({ params }) => {
-  // const { data: merchant } = useMerchantById(params.merchantId);
+const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
+  const { data: product } = useProductById({
+    merchantId: params.merchantId,
+    productId: params.productId,
+  });
 
   return (
     <PageWrapper>
       <Header
-        // title={product ? `Edit ${product.name}` : "Edit product"}
-        title={"Edit product"}
+        title={product ? `Edit ${product.name}` : "Edit product"}
         backLink={true}
-        backLinkHref={`/merchants/${params.merchantId}`}
+        backLinkHref="/"
       />
-      {/* <CreateOrEditProduct productId={params.productId} /> */}
+      <EditProduct
+        merchantId={params.merchantId}
+        productId={params.productId}
+      />
     </PageWrapper>
   );
 };
 
-export default EditProductPage;
+export default ProductDetailsPage;
