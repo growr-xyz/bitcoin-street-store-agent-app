@@ -7,7 +7,6 @@ import { UserContext } from "@/context/user-context";
 import { useModal, Modal } from "@/components/Modal";
 
 const Login = () => {
-  // const [isLightningConnected, setIsLightningConnected] = useState(false);
   const { createToast } = useContext(ToastContext);
   const { loginUser, keys } = useContext(UserContext);
   const loginModal = useModal();
@@ -15,7 +14,7 @@ const Login = () => {
   const loginHandler = async () => {
     try {
       if (await loginUser()) {
-        console.log("Connected");
+        // console.log("Connected");
         createToast({ message: "Connected successfully", type: "success" });
       } else {
         createToast({ message: "Error connecting", type: "error" });
@@ -23,28 +22,25 @@ const Login = () => {
     } finally {
       loginModal.hide();
     }
-    // setIsLightningConnected(true);
   };
 
   return (
     <>
-      {
-        /*isLightningConnected &&*/ keys?.publicKey ? (
-          <Account pubkey={keys.publicKey} />
-        ) : (
-          <div className="w-full h-[100dvh] flex flex-col gap-8 justify-center items-center">
-            <h1 className="font-bold text-xl">
-              Welcome to Bitcoin Street Store!
-            </h1>
-            <button
-              onClick={() => loginModal.show()}
-              className="rounded px-6 py-2 bg-orange-600 text-white text-lg"
-            >
-              Login
-            </button>
-          </div>
-        )
-      }
+      {keys?.publicKey ? (
+        <Account pubkey={keys.publicKey} />
+      ) : (
+        <div className="w-full h-[100dvh] flex flex-col gap-8 justify-center items-center">
+          <h1 className="font-bold text-xl">
+            Welcome to Bitcoin Street Store!
+          </h1>
+          <button
+            onClick={() => loginModal.show()}
+            className="rounded px-6 py-2 bg-orange-600 text-white text-lg"
+          >
+            Login
+          </button>
+        </div>
+      )}
       <Modal
         title="Login"
         isVisible={loginModal.isVisible}
@@ -85,11 +81,7 @@ const Login = () => {
               className="rounded px-4 py-2 bg-orange-600 text-white"
               onClick={loginHandler}
             >
-              {/* {isLightningConnected
-                      ? "Connected" 
-                      : "*/}
               Login with Nostr
-              {/*" }*/}
             </button>
           </>
         )}

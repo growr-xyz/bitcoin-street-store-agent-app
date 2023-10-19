@@ -52,7 +52,7 @@ export const editMerchant = async (merchant: Merchant): Promise<Merchant> => {
     ...(merchant.banner && { picture: merchant.banner }),
     ...(merchant.website && { picture: merchant.website }),
   };
-  console.log("editMerchant", merchantPatched);
+  // console.log("editMerchant", merchantPatched);
   if (merchant._id) {
     const { data, status } = await api.put(
       `/merchants/${merchant._id}`,
@@ -85,8 +85,8 @@ export const usePushMerchantProductForReview = () => {
 
 export const fetchProducts = async (merchantId: string): Promise<Products> => {
   const { data, status } = await api.get(`/merchants/${merchantId}/products`);
-  console.log("fetchProducts", data);
-  console.log("ProductsSchema", ProductsSchema);
+  // console.log("fetchProducts", data);
+  // console.log("ProductsSchema", ProductsSchema);
   if (status === 200) return ProductsSchema.parse(data);
   else throw new Error(data?.message);
 };
@@ -145,7 +145,7 @@ export const editProduct = async (product: Product): Promise<Product> => {
     // ...(product.specs && { images: product.specs }),
     // ...(product.shipping && { images: product.shipping }),
   };
-  console.log("editProduct", productPatched);
+  // console.log("editProduct", productPatched);
   if (product._id) {
     const { data, status } = await api.put(
       `/merchants/${product.merchantId}/products/${product._id}`,

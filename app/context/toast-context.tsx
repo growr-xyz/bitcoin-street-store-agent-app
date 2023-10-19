@@ -40,7 +40,7 @@ const ToastProvider = ({ children }: { children: ReactNode }) => {
   const createToast = ({ message, type, timeout = 3 }: ToastType) => {
     const id = Date.now();
 
-    console.log("createToast");
+    // console.log("createToast");
     setToasts((current) => [...current, { id, message, type, timeout }]);
 
     setTimeout(() => {

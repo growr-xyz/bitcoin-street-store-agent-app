@@ -100,7 +100,7 @@ const UserProvider = ({ children }: any) => {
     const expiryTime = createdAt ? createdAt + validityTime * 1000 : Date.now();
     const remainingTime = Math.max(expiryTime - Date.now(), 0);
 
-    console.log(
+    console.warn(
       `Access token expires in ${(remainingTime / 1000).toFixed(
         0
       )} seconds, will renew in ${((remainingTime - 60000) / 1000).toFixed(0)}`
@@ -112,17 +112,17 @@ const UserProvider = ({ children }: any) => {
   const setToken = (token: string) => {
     // Set the token to session storage, axios & create the expiration callback
     if (token) {
-      console.log("Token is set:", token);
+      // console.log("Token is set:", token);
 
       // Save to session storage
       sessionStorage.setItem("token", token);
 
       // Set axios headers
       api.defaults.headers.common["Authorization"] = token;
-      console.log(
-        "Axios header set to",
-        api.defaults.headers.common["Authorization"]
-      );
+      // console.log(
+      //   "Axios header set to",
+      //   api.defaults.headers.common["Authorization"]
+      // );
 
       const remainingTime = getTokenRemainingTime(token);
 
@@ -131,7 +131,7 @@ const UserProvider = ({ children }: any) => {
         try {
           // console.warn("setIsUserLoading true");
           setIsUserLoading(true);
-          console.warn("Token expired, to renew");
+          console.warn("Token expired, try renewal...");
 
           // Check if authenticated just in case
           // if (isAuthenticated) {
@@ -143,7 +143,7 @@ const UserProvider = ({ children }: any) => {
             logoutUser();
             createToast({
               message: "Could not renew API access token",
-              type: "warning",
+              type: "error",
             });
           }
           // }
@@ -177,7 +177,7 @@ const UserProvider = ({ children }: any) => {
         ],
       };
       const signed = await window.nostr.signEvent(event);
-      console.log("Signed 27235 authorization message", signed);
+      // console.log("Signed 27235 authorization message", signed);
       const signedBase64 = btoa(JSON.stringify(signed));
       // return signedBase64;
       // console.log("Signed 27235 authorization message - base64", signedBase64);
@@ -211,7 +211,7 @@ const UserProvider = ({ children }: any) => {
   };
 
   const parseProfileMetadata = (metadata: Event) => {
-    console.log("Parsing profile metadata", metadata);
+    // console.log("Parsing profile metadata", metadata);
     const content = metadata?.content;
     if (content) {
       const contentObj = JSON.parse(content);
@@ -228,11 +228,11 @@ const UserProvider = ({ children }: any) => {
   };
 
   const getProfileEvent = async (publicKey: string) => {
-    console.log("Get profile event");
+    // console.log("Get profile event");
     let kinds = [0]; // Metadata only
 
     if (profileMetadata) {
-      console.log("Cached events from context");
+      // console.log("Cached events from context");
       parseProfileMetadata(profileMetadata);
     }
 
@@ -248,13 +248,9 @@ const UserProvider = ({ children }: any) => {
       limit: 5,
     };
 
-    // let events: Event[] = [];
-
     const onEvent = (event: any) => {
-      // event.relayUrl = relayUrl;
-      // events.push(event);
       if (event.kind === 0) {
-        console.log("Metadata event", event);
+        // console.log("Metadata event", event);
         // Kind 0 => set profile metadata
         setProfileMetadata(event);
         parseProfileMetadata(event);
@@ -274,7 +270,9 @@ const UserProvider = ({ children }: any) => {
   };
 
   const orchestrateLogin = async (loadedToken?: string) => {
-    console.info("Try to auto-reconnect! Using token?", loadedToken);
+    console.info(
+      `Trying to auto-reconnect${loadedToken ? " with a token" : ""}...`
+    );
 
     // console.warn("setIsUserLoading true");
     setIsUserLoading(true);
@@ -285,7 +283,7 @@ const UserProvider = ({ children }: any) => {
       logoutUser();
       createToast({
         message: "Could not retrieve Nostr public key",
-        type: "warning",
+        type: "error",
       });
       return false;
     }
@@ -297,7 +295,7 @@ const UserProvider = ({ children }: any) => {
       if (!isTokenSigned) {
         createToast({
           message: "Could not sign API access token",
-          type: "warning",
+          type: "error",
         });
         logoutUser();
         return false;
@@ -305,7 +303,7 @@ const UserProvider = ({ children }: any) => {
     }
 
     // 3. Set isAuthenticated = true
-    console.warn("setIsAuthenticated true");
+    // console.warn("setIsAuthenticated true");
     setIsAuthenticated(true);
 
     // 4. Load the profile (async, but non-blocking)
@@ -366,7 +364,7 @@ const UserProvider = ({ children }: any) => {
 
       // Clean up
       localStorage.removeItem("shouldReconnect");
-      console.warn("setIsAuthenticated false");
+      // console.warn("setIsAuthenticated false");
       setIsAuthenticated(false);
       setToken("");
       setKeys(defaultKeys);
@@ -389,16 +387,16 @@ const UserProvider = ({ children }: any) => {
       hasRun.current = true;
 
       const shouldReconnect = localStorage.getItem("shouldReconnect");
-      console.log(
-        "UserContext useEffect [], shouldReconnect?",
-        !!shouldReconnect
-      );
+      // console.log(
+      //   "UserContext useEffect [], shouldReconnect?",
+      //   !!shouldReconnect
+      // );
 
       let tokenFromSession: string | null = sessionStorage.getItem("token");
-      console.log(
-        "UserContext useEffect [], token from session?",
-        tokenFromSession
-      );
+      // console.log(
+      //   "UserContext useEffect [], token from session?",
+      //   tokenFromSession
+      // );
 
       if (tokenFromSession) {
         const remainingTime = getTokenRemainingTime(tokenFromSession);
