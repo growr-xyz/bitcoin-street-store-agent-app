@@ -23,7 +23,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ params }) => {
       <Header
         title={product ? `Edit ${product.name}` : "Edit product"}
         backLink={true}
-        backLinkHref="/"
+        backLinkHref={`/merchants/${params.merchantId}`}
       />
       <EditProduct
         merchantId={params.merchantId}

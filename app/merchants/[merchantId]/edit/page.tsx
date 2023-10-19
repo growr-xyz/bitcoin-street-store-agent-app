@@ -21,7 +21,7 @@ const MerchantDetailsPage: React.FC<MerchantDetailsPageProps> = ({
       <Header
         title={merchant ? `Edit ${merchant.username}` : "Edit merchant"}
         backLink={true}
-        backLinkHref="/"
+        backLinkHref={`/merchants/${merchant?._id}`}
       />
       <EditMerchant merchantId={params.merchantId} />
     </PageWrapper>

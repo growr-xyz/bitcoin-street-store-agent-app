@@ -10,7 +10,7 @@ const InvitePage: React.FC = () => {
   const { isUserLoading, isAuthenticated } = useContext(UserContext);
   const router = useRouter();
 
-  if (!isUserLoading && !isAuthenticated) router.push("/");
+  if (!isUserLoading && !isAuthenticated) router.push("/", { scroll: false });
 
   return (
     <div>
