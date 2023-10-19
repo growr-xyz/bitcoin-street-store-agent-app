@@ -2,7 +2,6 @@
 import PageWrapper from "@/components/PageWrapper";
 import Header from "@/components/Header";
 import EditProduct from "../EditProduct";
-// import { useMerchantById } from "@/lib/services";
 
 interface AddProductPageProps {
   params: {

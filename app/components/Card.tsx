@@ -3,7 +3,6 @@ import { twJoin, twMerge } from "tailwind-merge";
 
 export interface CardProps {
   title: React.ReactNode;
-  // key?: string;
   href?: string;
   subtitle?: React.ReactNode;
   pillLabel?: string;
@@ -13,7 +12,6 @@ export interface CardProps {
 
 const Card: React.FC<CardProps> = ({
   title,
-  // key,
   href,
   subtitle,
   pillLabel,
@@ -45,18 +43,11 @@ const Card: React.FC<CardProps> = ({
   );
 
   return href ? (
-    <Link
-      // key={key}
-      href={href}
-      className={cardClassName}
-    >
+    <Link href={href} className={cardClassName}>
       <CardContents />
     </Link>
   ) : (
-    <div
-      // key={key}
-      className={cardClassName}
-    >
+    <div className={cardClassName}>
       <CardContents />
     </div>
   );

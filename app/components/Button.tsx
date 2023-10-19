@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  // icon?: React.ReactNode;
   href?: string;
 }
 
@@ -15,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const buttonClassName = twMerge(
-    "min-w-fit rounded self-stretch sm:self-auto px-3 py-1 text-normal sm:px-6 sm:py-2 bg-orange-600 text-white sm:text-lg text-center whitespace-nowrap overflow-hidden overflow-ellipsis",
+    "min-w-fit rounded sm:self-auto px-3 py-1 text-normal sm:px-6 sm:py-2 bg-orange-600 text-white sm:text-lg text-center whitespace-nowrap overflow-hidden overflow-ellipsis",
     className
   );
 
