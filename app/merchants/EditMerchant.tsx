@@ -73,7 +73,7 @@ const EditMerchant: React.FC<EditMerchantProps> = ({ merchantId }) => {
               message: `Merchant ${formik.values.username} invited successfully`,
               type: "success",
             });
-            router.push(`/merchants/`);
+            router.push(`/merchants/`, { scroll: false });
           } else {
             queryClient.setQueryData(
               ["merchants"],
@@ -92,7 +92,7 @@ const EditMerchant: React.FC<EditMerchantProps> = ({ merchantId }) => {
               message: `Merchant ${formik.values.username} updated successfully`,
               type: "success",
             });
-            router.push(`/merchants/${values._id}`);
+            router.push(`/merchants/${values._id}`, { scroll: false });
           }
         },
         onError: (e) => {
@@ -125,7 +125,7 @@ const EditMerchant: React.FC<EditMerchantProps> = ({ merchantId }) => {
     formik && (
       <form onSubmit={formik.handleSubmit}>
         <Container
-          fullHeight
+          bottomMargin
           className="p-4 sm:p-6 max-w-xl mx-auto gap-3 items-stretch"
         >
           <FormField

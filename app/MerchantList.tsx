@@ -10,7 +10,7 @@ const MerchantList: React.FC = () => {
   const { data: merchants, isLoading } = useMerchants();
 
   return (
-    <Container fullHeight className="p-4 sm:p-6 max-w-xl mx-auto">
+    <Container bottomMargin className="p-4 sm:p-6 max-w-xl mx-auto">
       <h2 className="text-2xl font-bold py-4">Your merchants</h2>
       {isLoading ? (
         <Container className="items-center">

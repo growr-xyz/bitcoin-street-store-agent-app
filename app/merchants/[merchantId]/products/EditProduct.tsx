@@ -79,7 +79,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
               type: "success",
             });
           }
-          router.push(`/merchants/${merchantId}`);
+          router.push(`/merchants/${merchantId}`, { scroll: false });
         },
         onError: (e) => {
           console.error("editMutation error", e);
@@ -111,7 +111,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
     formik && (
       <form onSubmit={formik.handleSubmit}>
         <Container
-          fullHeight
+          bottomMargin
           className="p-4 sm:p-6 max-w-xl mx-auto gap-3 items-stretch"
         >
           <FormField

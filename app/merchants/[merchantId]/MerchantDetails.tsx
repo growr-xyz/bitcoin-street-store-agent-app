@@ -42,7 +42,7 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({ merchantId }) => {
   const queryClient = useQueryClient();
 
   return (
-    <Container className="p-4 sm:p-6 max-w-xl mx-auto" fullHeight>
+    <Container className="p-4 sm:p-6 max-w-xl mx-auto" bottomMargin>
       {isMerchantLoading || isProductsLoading ? (
         <Container className="items-center">
           <Loader />
@@ -109,9 +109,9 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({ merchantId }) => {
           alignBottom
           className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl"
         >
-          <div className="flex flex-row gap-4 w-full overflow-x-scroll overflow-y-hidden">
+          <div className="flex flex-row gap-4 w-full overflow-x-scroll overflow-y-hidden justify-center items-center">
             <Button
-              className="flex-grow sm:flex-auto"
+              className={draftProducts > 0 ? "flex-grow sm:flex-auto" : ""}
               href={`/merchants/${merchant._id}/products/add`}
             >
               Add a product

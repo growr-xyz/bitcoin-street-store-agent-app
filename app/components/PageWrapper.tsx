@@ -18,7 +18,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!isUserLoading && !isAuthenticated) router.push("/");
+    if (!isUserLoading && !isAuthenticated) router.push("/", { scroll: false });
   }, [isUserLoading, isAuthenticated, router]);
 
   return (
