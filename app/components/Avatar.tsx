@@ -15,7 +15,7 @@ const Avatar: FC<AvatarProps> = ({ src, className = "" }) =>
     <img
       className={`rounded-full ${className}`}
       src={src}
-      alt=""
+      alt="Avatar"
       width={24}
       height={24}
     />

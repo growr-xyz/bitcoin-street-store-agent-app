@@ -130,16 +130,16 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
       <div className="relative">
         <div
           tabIndex={0}
-          className="flex flex-row gap-2 items-center"
+          className="flex flex-row gap-2 items-center w-8"
           onClick={() => setIsOpen(true)}
         >
           <Avatar
             src={isUserLoading ? undefined : user.picture}
             className="w-8 h-8 text-stone-600 border border-stone-200"
           />
-          <div className="max-w-[250px] whitespace-nowrap overflow-ellipsis overflow-hidden">
+          {/* <div className="max-w-[250px] whitespace-nowrap overflow-ellipsis overflow-hidden">
             {isUserLoading ? "Loading..." : user.displayName ?? user.name}
-          </div>
+          </div> */}
         </div>
         {isOpen && (
           <div
