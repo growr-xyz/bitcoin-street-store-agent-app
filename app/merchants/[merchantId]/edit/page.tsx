@@ -1,8 +1,9 @@
 "use client";
+
 import PageWrapper from "@/components/PageWrapper";
 import Header from "@/components/Header";
 import { useMerchantById } from "@/lib/services";
-import InviteOrEditMerchant from "@/merchants/InviteOrEditMerchant";
+import EditMerchant from "../../EditMerchant";
 
 interface MerchantDetailsPageProps {
   params: {
@@ -22,7 +23,7 @@ const MerchantDetailsPage: React.FC<MerchantDetailsPageProps> = ({
         backLink={true}
         backLinkHref="/"
       />
-      <InviteOrEditMerchant merchantId={params.merchantId} />
+      <EditMerchant merchantId={params.merchantId} />
     </PageWrapper>
   );
 };

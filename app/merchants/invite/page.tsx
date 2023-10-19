@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Header from "@/components/Header";
 import { UserContext } from "@/context/user-context";
 import { useRouter } from "next/navigation";
-import InviteOrEditMerchant from "../InviteOrEditMerchant";
+import InviteOrEditMerchant from "../EditMerchant";
 
 const InvitePage: React.FC = () => {
   const { isUserLoading, isAuthenticated } = useContext(UserContext);
