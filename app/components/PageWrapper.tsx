@@ -22,9 +22,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   }, [isUserLoading, isAuthenticated, router]);
 
   return (
-    <div>
-      {isUserLoading ? <FullPageLoader /> : isAuthenticated && children}
-    </div>
+    <>{isUserLoading ? <FullPageLoader /> : isAuthenticated && children}</>
   );
 };
 

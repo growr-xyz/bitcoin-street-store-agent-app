@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   backLinkHref,
 }) => {
   return (
-    <header className="flex items-center justify-between p-4 bg-stone-200 text-stone-900">
+    <header className="flex items-center justify-between p-4 bg-stone-200 text-stone-900 sticky top-0">
       {backButton && backButtonOnClick ? (
         <button
           onClick={backButtonOnClick}
