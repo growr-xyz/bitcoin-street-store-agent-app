@@ -7,11 +7,11 @@ import {
   ProductSchema,
 } from "@/types/schemas";
 import { api } from "./axios";
-import { useState, useEffect } from "react";
 
 export const fetchMerchants = async (): Promise<Merchants> => {
-  const { data } = await api.get("/merchants");
-  return MerchantsSchema.parse(data);
+  const { data, status } = await api.get("/merchants");
+  if (status === 200) return MerchantsSchema.parse(data);
+  else throw new Error(data?.message);
 };
 
 export const useMerchants = () => {
@@ -20,68 +20,75 @@ export const useMerchants = () => {
   });
 };
 
-// Not implemented yet by the API
-// export const fetchMerchantById = async (
-//   merchantId: string
-// ): Promise<Merchant> => {
-//   const { data } = await api.get(`/merchants/${merchantId}`);
-//   return MerchantSchema.parse(data);
-// };
-
-// export const useMerchantById = (merchantId: string) => {
-//   return useQuery(
-//     ["merchants", merchantId],
-//     () => fetchMerchantById(merchantId),
-//     {
-//       enabled: !!api.defaults.headers.common["Authorization"],
-//     }
-//   );
-// };
-
-// Temporary implementation
-export const useMerchantById = (merchantId?: string) => {
-  if (merchantId) {
-    const [merchant, setMerchant] = useState<Merchant>();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const { data: merchants } = useMerchants();
-
-    // Select merchant object by merchantId
-    useEffect(() => {
-      if (merchantId && merchants) {
-        const merchantFound = merchants.rows?.find(
-          (merchant) => merchant._id === merchantId
-        );
-
-        if (merchantFound) setMerchant(merchantFound);
-
-        setIsLoading(false);
-      }
-    }, [merchants, merchantId]);
-
-    return { data: merchant, isLoading };
-  } else return { data: undefined, isLoading: false };
+export const fetchMerchantById = async (
+  merchantId: string
+): Promise<Merchant> => {
+  const { data, status } = await api.get(`/merchants/${merchantId}`);
+  if (status === 200) return MerchantSchema.parse(data);
+  else throw new Error(data?.message);
 };
 
-export const inviteOrEditMerchant = async (
-  merchant: Merchant
-): Promise<Merchant> => {
+export const useMerchantById = (merchantId: string) => {
+  return useQuery(
+    ["merchants", merchantId],
+    () => fetchMerchantById(merchantId),
+    {
+      enabled: !!api.defaults.headers.common["Authorization"] && !!merchantId,
+    }
+  );
+};
+
+export const editMerchant = async (merchant: Merchant): Promise<Merchant> => {
+  const merchantPatched: Merchant = {
+    ...(merchant._id && { _id: merchant._id }),
+    phoneNumber: merchant.phoneNumber,
+    username: merchant.username,
+    walletAddress: merchant.username,
+    name: merchant.name,
+    about: merchant.about,
+    status: merchant.status,
+    createdBy: merchant.createdBy,
+    ...(merchant.picture && { picture: merchant.picture }),
+    ...(merchant.banner && { picture: merchant.banner }),
+    ...(merchant.website && { picture: merchant.website }),
+  };
+  console.log("editMerchant", merchantPatched);
   if (merchant._id) {
-    const { data } = await api.put(`/merchants/${merchant._id}`, merchant);
-    return MerchantSchema.parse(data);
+    const { data, status } = await api.put(
+      `/merchants/${merchant._id}`,
+      merchantPatched
+    );
+    if (status === 200) return MerchantSchema.parse(data);
+    else throw Error(data?.message);
   } else {
-    const { data } = await api.post("/merchants", merchant);
-    return MerchantSchema.parse(data);
+    const { data, status } = await api.post("/merchants", merchantPatched);
+    if (status === 200) return MerchantSchema.parse(data);
+    else throw Error(data?.message);
   }
 };
 
-export const useInviteOrEditMerchant = () => {
-  return useMutation(inviteOrEditMerchant);
+export const useEditMerchant = () => {
+  return useMutation(editMerchant);
+};
+
+export const pushMerchantProductForReview = async (merchantId: string) => {
+  const { data, status } = await api.post(
+    `/merchants/${merchantId}/products/push`
+  );
+  if (status === 200) return;
+  else throw Error(data?.message);
+};
+
+export const usePushMerchantProductForReview = () => {
+  return useMutation(pushMerchantProductForReview);
 };
 
 export const fetchProducts = async (merchantId: string): Promise<Products> => {
-  const { data } = await api.get(`/merchants/${merchantId}/products`);
-  return ProductsSchema.parse(data);
+  const { data, status } = await api.get(`/merchants/${merchantId}/products`);
+  console.log("fetchProducts", data);
+  console.log("ProductsSchema", ProductsSchema);
+  if (status === 200) return ProductsSchema.parse(data);
+  else throw new Error(data?.message);
 };
 
 export const useProducts = (merchantId: string) => {
@@ -90,19 +97,69 @@ export const useProducts = (merchantId: string) => {
   });
 };
 
+export const fetchProductById = async ({
+  merchantId,
+  productId,
+}: {
+  merchantId: string;
+  productId: string;
+}): Promise<Product> => {
+  const { data, status } = await api.get(
+    `/merchants/${merchantId}/products/${productId}`
+  );
+  if (status === 200) return ProductSchema.parse(data);
+  else throw Error(data?.message);
+};
+
+export const useProductById = ({
+  merchantId,
+  productId,
+}: {
+  merchantId: string;
+  productId: string;
+}) => {
+  return useQuery(
+    ["products", merchantId, productId],
+    () => fetchProductById({ merchantId, productId }),
+    {
+      enabled:
+        !!api.defaults.headers.common["Authorization"] &&
+        !!merchantId &&
+        !!productId,
+    }
+  );
+};
+
 export const editProduct = async (product: Product): Promise<Product> => {
+  const productPatched: Product = {
+    ...(product._id && { _id: product._id }),
+    merchantId: product.merchantId,
+    name: product.name,
+    description: product.description,
+    price: product.price,
+    quantity: product.quantity,
+    currency: product.currency,
+    status: product.status,
+    createdBy: product.createdBy,
+    // ...(product.images && { images: product.images }),
+    // ...(product.specs && { images: product.specs }),
+    // ...(product.shipping && { images: product.shipping }),
+  };
+  console.log("editProduct", productPatched);
   if (product._id) {
-    const { data } = await api.put(
+    const { data, status } = await api.put(
       `/merchants/${product.merchantId}/products/${product._id}`,
-      product
+      productPatched
     );
-    return ProductSchema.parse(data);
+    if (status === 200) return ProductSchema.parse(data);
+    else throw Error(data?.message);
   } else {
-    const { data } = await api.post(
+    const { data, status } = await api.post(
       `/merchants/${product.merchantId}/products`,
-      product
+      productPatched
     );
-    return ProductSchema.parse(data);
+    if (status === 200) return ProductSchema.parse(data);
+    else throw Error(data?.message);
   }
 };
 

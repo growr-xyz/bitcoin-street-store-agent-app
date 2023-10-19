@@ -19,6 +19,7 @@ export const ShippingZoneSchema = z.object({
   merchantId: z.string(), // Assuming ObjectId is a string
   createdAt: DateSchema.optional(),
   updatedAt: DateSchema.optional(),
+  __v: z.number().optional(),
 });
 
 // Define the schema for the shipping property
@@ -37,8 +38,8 @@ export const ProductSchema = z.object({
   stallId: z.string().optional(), // Assuming ObjectId is a string, TODO: Remove .optional()
   name: z.string(),
   description: z.string().optional(),
-  images: z.array(z.string()).optional(),
-  currency: z.string().default("SAT"),
+  images: z.array(z.string().url()).optional(),
+  currency: z.string().default("SATS"),
   price: z.number().default(0),
   quantity: z.number().default(0),
   specs: z.array(z.string()).optional(),
@@ -49,6 +50,7 @@ export const ProductSchema = z.object({
   merchantId: z.string(), // Assuming ObjectId is a string
   createdAt: DateSchema.optional(),
   updatedAt: DateSchema.optional(),
+  __v: z.number().optional(),
 });
 
 export const StallStatusSchema = z
@@ -69,6 +71,7 @@ export const StallSchema = z.object({
   merchantId: z.string(), // Assuming ObjectId is a string
   createdAt: DateSchema.optional(),
   updatedAt: DateSchema.optional(),
+  __v: z.number().optional(),
 });
 
 export const MerchantStatusSchema = z
@@ -77,7 +80,7 @@ export const MerchantStatusSchema = z
 
 export const MerchantSchema = z.object({
   _id: z.string().optional(), // New merchants don't have _id
-  mobileNumber: z
+  phoneNumber: z
     .string()
     .min(1, { message: "Mobile number is required" })
     .refine(
@@ -93,13 +96,13 @@ export const MerchantSchema = z.object({
   username: z.string().min(1, { message: "User name is required" }),
   walletAddress: z
     .string()
-    .min(1, { message: "Merchant wallet's Lightning address is required" })
-    .email({ message: "Invalid Lightning address" }),
+    .min(1, { message: "Merchant wallet's Lightning address is required" }),
+  // .email({ message: "Invalid Lightning address" })
   name: z.string().optional(),
   about: z.string().optional(),
-  picture: z.string().optional(),
-  banner: z.string().optional(),
-  website: z.string().optional(),
+  picture: z.string().url().optional(),
+  banner: z.string().url().optional(),
+  website: z.string().url().optional(),
   stalls: z.array(z.string()).optional(), // Assuming ObjectId is a string
   status: MerchantStatusSchema,
   createdBy: z.string().optional(), // New merchants don't have createdBy, otherwise required
@@ -107,6 +110,7 @@ export const MerchantSchema = z.object({
   // otp: OtpSchema.optional(),
   createdAt: DateSchema.optional(),
   updatedAt: DateSchema.optional(),
+  __v: z.number().optional(),
 });
 
 export const PaginationSchema = z.object({
@@ -127,4 +131,4 @@ export function createApiResultSchema<T extends z.ZodType<any, any>>(
 }
 
 export const MerchantsSchema = createApiResultSchema(MerchantSchema);
-export const ProductsSchema = createApiResultSchema(ProductSchema);
+export const ProductsSchema = z.array(ProductSchema); //createApiResultSchema(ProductSchema);
