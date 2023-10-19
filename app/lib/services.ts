@@ -141,11 +141,11 @@ export const editProduct = async (product: Product): Promise<Product> => {
     currency: product.currency,
     status: product.status,
     createdBy: product.createdBy,
-    // ...(product.images && { images: product.images }),
-    // ...(product.specs && { images: product.specs }),
+    images: product.images,
+    specs: product.specs,
     // ...(product.shipping && { images: product.shipping }),
   };
-  // console.log("editProduct", productPatched);
+  console.log("editProduct", productPatched);
   if (product._id) {
     const { data, status } = await api.put(
       `/merchants/${product.merchantId}/products/${product._id}`,
