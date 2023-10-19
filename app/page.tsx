@@ -8,7 +8,8 @@ import Login from "@/components/Login";
 import PageWrapper from "@/components/PageWrapper";
 
 const LandingPage: React.FC = () => {
-  const { isAuthenticated, isUserLoading } = useContext(UserContext);
+  const { isAuthenticated, isUserLoading, user, keys } =
+    useContext(UserContext);
 
   return (
     <div>
@@ -19,7 +20,11 @@ const LandingPage: React.FC = () => {
       )}
       {(isUserLoading || isAuthenticated) && (
         <PageWrapper>
-          <Header title="Welcome" />
+          <Header
+            title={`Welcome, ${
+              user.displayName || user.name || keys.publicKey
+            }!`}
+          />
           <MerchantList />
         </PageWrapper>
       )}
