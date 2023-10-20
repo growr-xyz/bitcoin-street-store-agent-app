@@ -115,10 +115,10 @@ export const MerchantSchema = z.object({
 });
 
 export const PaginationSchema = z.object({
-  page: z.number(),
-  pageSize: z.number(),
-  total: z.number(),
-  totalPages: z.number(),
+  page: z.number().optional(), // Not present if empty rows array
+  pageSize: z.number().optional(), // Not present if empty rows array
+  total: z.number().optional(), // Not present if empty rows array
+  totalPages: z.number().optional(), // Not present if empty rows array
 });
 
 // Define a generic function to create the schema
@@ -131,5 +131,7 @@ export function createApiResultSchema<T extends z.ZodType<any, any>>(
   });
 }
 
-export const MerchantsSchema = createApiResultSchema(MerchantSchema);
-export const ProductsSchema = z.array(ProductSchema); //createApiResultSchema(ProductSchema);
+export const MerchantsSchema = z
+  .array(z.null())
+  .or(createApiResultSchema(MerchantSchema));
+export const ProductsSchema = z.array(z.null()).or(z.array(ProductSchema)); //createApiResultSchema(ProductSchema);
