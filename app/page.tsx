@@ -14,9 +14,9 @@ const LandingPage: React.FC = () => {
   return (
     <div>
       {!isAuthenticated && !isUserLoading && (
-        <div>
+        <>
           <Login />
-        </div>
+        </>
       )}
       {(isUserLoading || isAuthenticated) && (
         <PageWrapper>

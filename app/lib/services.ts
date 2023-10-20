@@ -139,10 +139,11 @@ export const editProduct = async (product: Product): Promise<Product> => {
     price: product.price,
     quantity: product.quantity,
     currency: product.currency,
-    status: product.status,
+    // TODO: Currently forcing the status to draft, this should be implemented in the BE.
+    status: "Draft", // product.status,
     createdBy: product.createdBy,
     images: product.images,
-    specs: product.specs,
+    // specs: product.specs,
     // ...(product.shipping && { images: product.shipping }),
   };
   console.log("editProduct", productPatched);

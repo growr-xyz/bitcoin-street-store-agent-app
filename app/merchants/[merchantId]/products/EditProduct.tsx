@@ -182,7 +182,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
                 </>
               )}
             </FieldArray>
-            <FieldArray name="specs">
+            {/* <FieldArray name="specs">
               {({ push, remove }) => (
                 <>
                   <div className="flex flex-row justify-between items-center">
@@ -216,7 +216,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
                   ))}
                 </>
               )}
-            </FieldArray>
+            </FieldArray> */}
 
             <Container alignBottom className="items-center">
               <Button type="submit">{productId ? "Save" : "Create"}</Button>

@@ -5,6 +5,7 @@ import Account from "./Account";
 import { ToastContext } from "@/context/toast-context";
 import { UserContext } from "@/context/user-context";
 import { useModal, Modal } from "@/components/Modal";
+import Image from "next/image";
 
 const Login = () => {
   const { createToast } = useContext(ToastContext);
@@ -29,8 +30,17 @@ const Login = () => {
       {keys?.publicKey ? (
         <Account pubkey={keys.publicKey} />
       ) : (
-        <div className="w-full h-[100dvh] flex flex-col gap-8 justify-center items-center">
-          <h1 className="font-bold text-xl">
+        <div className="w-full h-[100dvh] flex flex-col p-4 sm:p-6 gap-8 justify-center items-center">
+          <div className="w-[250px] h-[250px] xl:w-[500px] xl:h-[500px]">
+            <Image
+              src="/bss-logo-1.png"
+              width={500}
+              height={500}
+              alt="Bitcoin Street Store"
+              objectFit="contain"
+            />
+          </div>
+          <h1 className="font-bold text-xl xl:text-3xl">
             Welcome to Bitcoin Street Store!
           </h1>
           <button
