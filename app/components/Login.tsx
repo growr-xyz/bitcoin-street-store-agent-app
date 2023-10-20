@@ -47,14 +47,15 @@ const Login = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col items-start">
-              <h1 className="font-bold text-2xl sm:text-3xl mb-4">
+            <div className="flex flex-col items-center sm:items-start lg:w-[500px] text-center sm:text-left">
+              <h1 className="font-bold text-xl md:text-2xl lg:text-3xl mb-4">
                 Welcome to the Bitcoin Street Store Online
               </h1>
-              <p className="mb-8 text-normal sm:text-xl">
-                We deliver economic empowerment to African merchants.
+              <p className="mb-8 text-normal md:text-md lg:text-xl">
+                Digital commerce tools for economic empowerment of African
+                merchants, accessible without Internet.
               </p>
-              <div className="flex w-full justify-center sm:justify-start">
+              <div>
                 <Button onClick={() => loginModal.show()}>
                   Login with Nostr
                 </Button>
