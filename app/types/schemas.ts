@@ -106,6 +106,7 @@ export const MerchantSchema = z.object({
   stalls: z.array(z.string()).optional(), // Assuming ObjectId is a string
   status: MerchantStatusSchema,
   createdBy: z.string().optional(), // New merchants don't have createdBy, otherwise required
+  npub: z.string().optional(), // New merchants don't have npub
   eventId: z.string().optional(), // Assuming ObjectId is a string; new merchants don't have eventId, otherwise required
   // otp: OtpSchema.optional(),
   createdAt: DateSchema.optional(),

@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from "react";
 import { twJoin } from "tailwind-merge";
 import { useQueryClient } from "@tanstack/react-query";
 import { ToastContext } from "@/context/toast-context";
+import { Copy } from "@/icons";
 
 interface MerchantDetailsProps {
   merchantId: string;
@@ -51,16 +52,68 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({ merchantId }) => {
         <div>Merchant not found.</div>
       ) : (
         <>
-          <Container className="items-end">
-            <Button href={`/merchants/${merchantId}/edit`}>
+          <Container className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-6">
+            <div className="shrink grow">
+              <h2 className="text-2xl font-bold mb-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[calc(100dvw-2rem)]">
+                {merchant.name ?? merchant.username}
+              </h2>
+
+              <div className="flex flex-row items-start justify-start gap-2 max-w-[calc(100dvw-2rem)]">
+                <div
+                  className={twJoin(
+                    "my-auto min-w-fit p-1 rounded text-white text-xs font-normal overflow-hidden overflow-ellipsis whitespace-nowrap",
+                    merchant.status === "Invited"
+                      ? "bg-stone-500"
+                      : merchant.status === "Confirmed"
+                      ? "bg-yellow-500"
+                      : merchant.status === "Active"
+                      ? "bg-green-500"
+                      : "bg-stone-300"
+                  )}
+                >
+                  {merchant.status}
+                </div>
+                {merchant.npub && (
+                  <div className="text-sm text-stone-500 min-w-fit">
+                    npub:{" "}
+                    <a
+                      href={`https://snort.social/p/${merchant.npub}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {merchant.npub.slice(1, 10)}...
+                    </a>
+                  </div>
+                )}
+                {merchant.npub && (
+                  <div className="w-4 h-4">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(merchant.npub || "");
+                        createToast({
+                          message: "Merchant npub copied to the clipboard",
+                          type: "info",
+                        });
+                      }}
+                    >
+                      <Copy className="w-4 h-4 text-stone-500" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <Button
+              className="mx-auto sm:ml-auto"
+              href={`/merchants/${merchantId}/edit`}
+            >
               Edit merchant
             </Button>
           </Container>
-          <Container className="flex-row justify-start items-center">
-            <h2 className="text-2xl font-bold py-4">Store</h2>
+          <Container className="flex-col sm:flex-row justify-start items-start sm:items-center mb-4">
+            <h2 className="text-2xl font-bold mb-2">Store</h2>
             <div
               className={twJoin(
-                "ml-2 my-auto p-1 rounded text-white text-xs font-normal",
+                "sm:ml-2 my-auto p-1 rounded text-white text-xs font-normal",
                 draftProducts > 0 ? "bg-yellow-500" : "bg-green-500"
               )}
             >
