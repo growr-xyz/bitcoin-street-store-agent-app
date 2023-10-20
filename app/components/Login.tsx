@@ -55,10 +55,14 @@ const Login = () => {
                 Digital commerce tools for economic empowerment of African
                 merchants, accessible without Internet.
               </p>
-              <div>
+              <div className="flex flex-col gap-2">
                 <Button onClick={() => loginModal.show()}>
                   Login with Nostr
                 </Button>
+                <p className="text-sm">
+                  You don&apos;t need to register. You simply need to connect
+                  your Nostr npub to use the platform.
+                </p>
               </div>
             </div>
           </div>

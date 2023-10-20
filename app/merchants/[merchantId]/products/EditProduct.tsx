@@ -39,7 +39,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
     name: "",
     description: "",
     images: [],
-    currency: "SATS",
+    currency: "sat",
     price: 0,
     quantity: 0,
     specs: [],

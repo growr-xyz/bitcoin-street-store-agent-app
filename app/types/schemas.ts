@@ -39,7 +39,7 @@ export const ProductSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   images: z.array(z.string().url()).optional(),
-  currency: z.string().default("SATS"),
+  currency: z.string().default("sat"),
   price: z.number().default(0),
   quantity: z.number().default(0),
   specs: z.array(z.string()).optional(),
@@ -61,7 +61,7 @@ export const StallSchema = z.object({
   _id: z.string().optional(), // New stalls don't have _id
   name: z.string(),
   description: z.string().optional(),
-  currency: z.string().default("SATS"),
+  currency: z.string().default("sat"),
   shipping: z.array(ShippingZoneSchema).optional(),
   products: z.array(ProductSchema).optional(),
   regions: z.array(z.string()).optional(),
