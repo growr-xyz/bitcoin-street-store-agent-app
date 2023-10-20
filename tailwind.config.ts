@@ -9,14 +9,7 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
-      sans: ["var(--font-lato)", "Roboto", "sans-serif", ...fontFamily.sans],
-    },
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+      sans: ["var(--font-ubuntu)", "Roboto", "sans-serif", ...fontFamily.sans],
     },
   },
   plugins: [require("@tailwindcss/typography")],

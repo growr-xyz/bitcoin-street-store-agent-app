@@ -26,7 +26,7 @@ const FormField: React.FC<FormFieldProps> = ({
       <div className="flex flex-row justify-start items-center gap-2">
         <input
           {...inputProps}
-          className="flex-grow border p-2 rounded focus:outline-orange-600"
+          className="flex-grow border p-2 rounded focus:outline-orange-900"
         />
         {suffix && (
           <div className="text-xs text-stone-500 min-w-fit text-right overflow-hidden overflow-ellipsis whitespace-nowrap">

@@ -1,7 +1,7 @@
 import "@/globals.css";
 import type { Metadata } from "next";
 import Providers from "@/context/providers";
-import { Fredoka } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import Toast from "@/components/Toast";
 
 export const metadata: Metadata = {
@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   description: "Bitcoin Street Store agent app",
 };
 
-const fredoka = Fredoka({
-  weight: ["300", "600"],
+const ubuntu = Ubuntu({
+  weight: ["300", "700"],
   subsets: ["latin"],
-  variable: "--font-fredoka",
+  variable: "--font-ubuntu",
 });
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={fredoka.className}>
+      <body className={ubuntu.className}>
         <Providers>
           <main>
             {children}

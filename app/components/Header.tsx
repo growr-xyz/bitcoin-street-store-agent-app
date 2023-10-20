@@ -24,12 +24,15 @@ const Header: React.FC<HeaderProps> = ({
       {backButton && backButtonOnClick ? (
         <button
           onClick={backButtonOnClick}
-          className="bg-stone-200 rounded-full"
+          className="bg-stone-200 rounded-full focus:outline-orange-900"
         >
           <Back />
         </button>
       ) : backLink && backLinkHref ? (
-        <Link href={backLinkHref} className="bg-stone-200 rounded-full">
+        <Link
+          href={backLinkHref}
+          className="bg-stone-200 rounded-full focus:outline-orange-900"
+        >
           <Back />
         </Link>
       ) : (

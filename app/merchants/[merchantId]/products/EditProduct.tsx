@@ -105,7 +105,7 @@ const EditProduct: React.FC<EditProductProps> = ({ merchantId, productId }) => {
   }, [product]);
 
   return productId && isProductLoading ? (
-    <Container className="items-center">
+    <Container className="items-center justify-center p-4 sm:p-6">
       <Loader />
     </Container>
   ) : (

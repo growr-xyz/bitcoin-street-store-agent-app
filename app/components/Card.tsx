@@ -38,7 +38,7 @@ const Card: React.FC<CardProps> = ({
   );
 
   const cardClassName = twMerge(
-    "rounded-lg border border-stone-200 p-4 bg-stone-100 cursor-pointer hover:bg-stone-200",
+    "rounded-lg border border-stone-200 p-4 bg-stone-100 cursor-pointer hover:bg-stone-200 focus:outline-orange-900",
     className
   );
 

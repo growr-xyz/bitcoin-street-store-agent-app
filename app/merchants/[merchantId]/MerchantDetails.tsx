@@ -107,9 +107,9 @@ const MerchantDetails: React.FC<MerchantDetailsProps> = ({ merchantId }) => {
       {merchant && (
         <Container
           alignBottom
-          className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl"
+          className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl p-0 sm:p-0"
         >
-          <div className="flex flex-row gap-4 w-full overflow-x-scroll overflow-y-hidden justify-center items-center">
+          <div className="flex flex-row gap-4 w-full overflow-x-scroll overflow-y-hidden justify-center items-center px-4 py-4 sm:px-6 sm:py-6">
             <Button
               className={draftProducts > 0 ? "flex-grow sm:flex-auto" : ""}
               href={`/merchants/${merchant._id}/products/add`}

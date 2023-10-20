@@ -39,7 +39,7 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
       <div className="relative">
         <div
           tabIndex={0}
-          className="flex flex-row gap-2 items-center w-8"
+          className="flex flex-row gap-2 items-center w-8 focus:outline-orange-900"
           onClick={() => setIsOpen(true)}
         >
           <Avatar
@@ -52,7 +52,10 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
             ref={ref}
             className="absolute right-0 top-10 bg-white p-4 shadow rounded-lg flex flex-col items-start justify-start text-black gap-1 w-52"
           >
-            <button className="w-full text-left" onClick={logoutHandler}>
+            <button
+              className="w-full text-left focus:outline-orange-900"
+              onClick={logoutHandler}
+            >
               Logout
             </button>
           </div>
