@@ -131,7 +131,5 @@ export function createApiResultSchema<T extends z.ZodType<any, any>>(
   });
 }
 
-export const MerchantsSchema = z
-  .array(z.null())
-  .or(createApiResultSchema(MerchantSchema));
-export const ProductsSchema = z.array(z.null()).or(z.array(ProductSchema)); //createApiResultSchema(ProductSchema);
+export const MerchantsSchema = createApiResultSchema(MerchantSchema);
+export const ProductsSchema = z.array(ProductSchema); //createApiResultSchema(ProductSchema);
