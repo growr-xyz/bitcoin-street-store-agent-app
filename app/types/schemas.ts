@@ -80,6 +80,7 @@ export const MerchantStatusSchema = z
 
 export const MerchantSchema = z.object({
   _id: z.string().optional(), // New merchants don't have _id
+  npub: z.string().optional(),
   phoneNumber: z
     .string()
     .min(1, { message: "Mobile number is required" })
