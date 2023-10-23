@@ -87,7 +87,8 @@ const UserProvider = ({ children }: any) => {
   // const [token, setToken] = useState("");
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { relayUrl, activeRelay, subscribe } = useContext(RelayContext);
+  const { relayUrl, activeRelay, subscribe, relayConnectionError } =
+    useContext(RelayContext);
   const { createToast } = useContext(ToastContext);
   const hasRun = useRef(false);
 
@@ -383,7 +384,7 @@ const UserProvider = ({ children }: any) => {
       typeof window.nostr !== "undefined"
     ) {
       // Run once
-      // console.log("UserContext useEffect [] run once");
+      console.log("UserContext useEffect [] run once");
       hasRun.current = true;
 
       const shouldReconnect = localStorage.getItem("shouldReconnect");
@@ -414,6 +415,12 @@ const UserProvider = ({ children }: any) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relayUrl, activeRelay]);
+
+  // What to do if we can't connect to a Nostr relay
+  useEffect(() => {
+    setIsUserLoading(false);
+    setIsAuthenticated(false);
+  }, [relayConnectionError]);
 
   return (
     <UserContext.Provider

@@ -2,6 +2,7 @@ import { FC, useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "@/context/user-context";
 import { ToastContext } from "@/context/toast-context";
 import Avatar from "./Avatar";
+import { useRouter } from "next/navigation";
 
 interface AccountProps {
   pubkey: string;
@@ -11,7 +12,7 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
   const { user, isUserLoading, logoutUser } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const { createToast } = useContext(ToastContext);
-
+  const router = useRouter();
   const ref = useRef(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -31,7 +32,8 @@ const Account: FC<AccountProps> = ({ pubkey }) => {
     localStorage.removeItem("shouldReconnect");
     logoutUser();
     createToast({ message: "Logged out", type: "success" });
-    window.location.reload();
+    router.push("/");
+    // window.location.reload();
   };
 
   return (

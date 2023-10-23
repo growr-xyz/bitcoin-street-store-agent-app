@@ -34,24 +34,26 @@ const Login = () => {
         <div className="w-full min-h-[100dvh] min-w-[100dvw] flex flex-col p-4 sm:p-6 gap-8 justify-center items-center">
           <div
             id="hero"
-            className="flex flex-col sm:flex-row gap-8 lg:gap-16 items-center"
+            className="flex flex-col md:flex-row gap-8 lg:gap-16 items-center"
           >
             <div className="">
-              <div className="w-[250px] h-[250px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px]">
+              <div className="w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[500px] lg:h-[500px]">
                 <Image
-                  src="/bss-splash.png"
+                  className="object-contain"
+                  src="/bss-splash.jpg"
                   width={1023}
                   height={1023}
                   alt="Bitcoin Street Store"
-                  objectFit="contain"
+                  priority={false}
+                  // objectFit="contain"
                 />
               </div>
             </div>
-            <div className="flex flex-col items-center sm:items-start lg:w-[500px] text-center sm:text-left">
-              <h1 className="font-bold text-xl md:text-2xl lg:text-3xl mb-4">
+            <div className="flex flex-col items-center md:items-start md:w-[400px] xl:w-[500px] text-center md:text-left">
+              <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl mb-4">
                 Welcome to the Bitcoin Street Store Online
               </h1>
-              <p className="mb-8 text-normal md:text-md lg:text-xl">
+              <p className="mb-8 text-md md:text-xl lg:text-2xl">
                 Digital commerce tools for economic empowerment of African
                 merchants, accessible without Internet.
               </p>
@@ -71,11 +73,11 @@ const Login = () => {
             <div className="min-w-fit">
               <Image
                 src="/bitcoincowries.png"
-                className="w-12 sm:w-16 text-black"
+                className="w-12 sm:w-16 text-black object-contain"
                 width={300}
                 height={300}
                 alt="Bitcoin Cowries"
-                objectFit="contain"
+                // objectFit="contain"
               />
             </div>
             <div className="min-w-fit text-xs sm:text-sm">and</div>

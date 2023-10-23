@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Header from "@/components/Header";
 import { UserContext } from "@/context/user-context";
 import { useRouter } from "next/navigation";
-import InviteOrEditMerchant from "../EditMerchant";
+import EditMerchant from "../EditMerchant";
 
 const InvitePage: React.FC = () => {
   const { isUserLoading, isAuthenticated } = useContext(UserContext);
@@ -16,7 +16,7 @@ const InvitePage: React.FC = () => {
     <div>
       <Header title="Invite a merchant" backLink={true} backLinkHref="/" />
 
-      {isAuthenticated && <InviteOrEditMerchant />}
+      {isAuthenticated && <EditMerchant />}
     </div>
   );
 };

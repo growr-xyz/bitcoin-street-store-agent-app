@@ -16,6 +16,7 @@ interface IRelayContext {
   connect: (newRelayUrl: string) => Promise<any>;
   connectedRelays: Set<Relay>;
   setConnectedRelays: React.Dispatch<React.SetStateAction<Set<Relay>>>;
+  relayConnectionError: boolean;
   // publish: (
   //   relays: string[],
   //   event: any,
@@ -43,6 +44,7 @@ export const RelayContext = createContext<IRelayContext>({
   setConnectedRelays: () => {},
   // publish: () => {},
   subscribe: () => {},
+  relayConnectionError: false,
 });
 
 const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -52,6 +54,8 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
   const [relayUrl, setRelayUrl] = useState<string>(RELAYS[0]);
   const [activeRelay, setActiveRelay] = useState<Relay>();
   const [connectedRelays, setConnectedRelays] = useState<Set<Relay>>(new Set());
+  const [relayConnectionError, setRelayConnectionError] =
+    useState<boolean>(false);
   const { createToast } = useContext(ToastContext);
 
   useEffect(() => {
@@ -114,6 +118,7 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
 
       relay.on("error", () => {
         console.error("error", `❌ Nostr (${newRelayUrl}): Connection error!`);
+        setRelayConnectionError(true);
         createToast({
           message: `Unable to connect to ${relayUrl}`,
           type: "error",
@@ -195,6 +200,7 @@ const RelayProvider: React.FC<{ children: React.ReactNode }> = ({
         setConnectedRelays,
         // publish,
         subscribe,
+        relayConnectionError,
       }}
     >
       {children}
