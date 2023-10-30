@@ -60,12 +60,18 @@ const EditMerchant: React.FC<EditMerchantProps> = ({ merchantId }) => {
                 oldMerchants.rows && {
                   ...oldMerchants,
                   // TODO: I'm not sure how clever is to update the paging attributes
-                  total: oldMerchants.total + 1,
+                  total: oldMerchants.total
+                    ? oldMerchants.total + 1
+                    : undefined,
                   totalPages:
-                    oldMerchants.total + 1 >
-                    oldMerchants.totalPages * oldMerchants.pageSize
-                      ? oldMerchants.totalPages + 1
-                      : oldMerchants.totalPages,
+                    oldMerchants.total &&
+                    oldMerchants.totalPages &&
+                    oldMerchants.pageSize
+                      ? oldMerchants.total + 1 >
+                        oldMerchants.totalPages * oldMerchants.pageSize
+                        ? oldMerchants.totalPages + 1
+                        : oldMerchants.totalPages
+                      : undefined,
                   rows: [updatedMerchant, ...oldMerchants.rows],
                 }
             );
