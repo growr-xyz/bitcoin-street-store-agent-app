@@ -15,8 +15,11 @@ const LandingPage: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) router.push("/merchants");
-  }, [router, isAuthenticated]);
+    if (!isUserLoading && isAuthenticated) {
+      console.log("user logged in", user);
+      router.push("/merchants");
+    }
+  }, [router, isUserLoading, user, isAuthenticated]);
 
   return (
     <div>
