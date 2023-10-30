@@ -1,4 +1,4 @@
-import "@/globals.css";
+import "./globals.css";
 import type { Metadata } from "next";
 import Providers from "@/context/providers";
 import { Ubuntu } from "next/font/google";

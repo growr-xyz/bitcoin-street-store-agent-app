@@ -132,7 +132,7 @@ const UserProvider = ({ children }: any) => {
         try {
           // console.warn("setIsUserLoading true");
           setIsUserLoading(true);
-          console.warn("Token expired, try renewal...");
+          console.warn("Token expiring, try renewal...");
 
           // Check if authenticated just in case
           // if (isAuthenticated) {
@@ -193,7 +193,7 @@ const UserProvider = ({ children }: any) => {
 
   const connectNostr = async () => {
     try {
-      const publicKey = await nostr.getPublicKey();
+      const publicKey = await window.nostr.getPublicKey();
       console.info("Public key retrieved", publicKey);
       setKeys({ ...keys, publicKey });
       setUser({ ...user, name: publicKey });
@@ -384,7 +384,7 @@ const UserProvider = ({ children }: any) => {
       typeof window.nostr !== "undefined"
     ) {
       // Run once
-      console.log("UserContext useEffect [] run once");
+      // console.log("UserContext useEffect [] run once");
       hasRun.current = true;
 
       const shouldReconnect = localStorage.getItem("shouldReconnect");
@@ -418,6 +418,7 @@ const UserProvider = ({ children }: any) => {
 
   // What to do if we can't connect to a Nostr relay
   useEffect(() => {
+    console.warn("Error connecting to relay.");
     setIsUserLoading(false);
     setIsAuthenticated(false);
   }, [relayConnectionError]);
